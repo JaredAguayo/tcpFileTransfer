@@ -1,19 +1,27 @@
 #! /usr/bin/env python3
 
-import socket, sys, re
+import socket, sys, re,os
+
 sys.path.append("../lib")
 import params
+from framedSock import framedSend,framedReceive
 
 switchesVarDefaults = (
-    (('-s', '--server'), 'server', "127.0.0.1:50001"),
+    (('-s', '--server'), "server", "127.0.0.1:50001"),
+    (('-d', '--debug'), "debug",False),
     (('-?', '--usage'), "usage", False), # boolean (set if present)
     )
 
+while True:
+    try:
+        fileName = input("Enter File Name\n")
+        file = open("./FilesToTest/" + fileName,"rb")
+        break
+    except FileNotFoundError:
+        print("File does not exist, please enter another file name")
 
-progname = "framedClient"
 paramMap = params.parseParams(switchesVarDefaults)
-
-server, usage  = paramMap["server"], paramMap["usage"]
+server, usage,debug  = paramMap["server"], paramMap["usage"],paramMap["debug"]
 
 if usage:
     params.usage()
@@ -37,11 +45,12 @@ if s is None:
 
 s.connect(addrPort)
 
-text_file = 'normalCase.txt'
+fileContents = file.read()
 
-with open (text_file, 'r') as inputFile:
-    trans = inputFile.read()
-    print(trans)
-    s.send(trans.encode())
+if len(fileContents) == 0:
+    print("File Empty, exit...")
+    sys.exit(1)
 
-s.close()
+print("sending file")
+
+framedSend(s,fileName,fileContents,debug)
