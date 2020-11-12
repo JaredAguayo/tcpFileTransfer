@@ -30,7 +30,7 @@ def file_transfer_end(fname):
     lock.release()  #release the lock
 
 switchesVarDefaults = (
-    (('-l', '--listenPort'), "listenPort",50001),   #its set for the proxy port
+    (('-l', '--listenPort'), "listenPort",50001),
     (('-d', '--debug'), "debug", False),
     (('-?', '--usage'), "usage", False),
     )

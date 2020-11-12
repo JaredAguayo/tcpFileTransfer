@@ -7,7 +7,7 @@ sys.path.append("../lib")
 import params
 
 switchesVarDefaults = (
-    (('-s', '--server'), "server", "127.0.0.1:50001"), #50001 is proxy port
+    (('-s', '--server'), "server", "127.0.0.1:50001"), 
     (('-d', '--debug'), "debug", False),
     (('-?', '--usage'), "usage", False),
     )
